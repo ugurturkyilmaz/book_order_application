@@ -13,9 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class Security extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private MyBasicAuthenticationEntryPoint basicAuthenticationEntryPoint;
-
-    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .passwordEncoder(new BCryptPasswordEncoder())
@@ -30,10 +27,8 @@ public class Security extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui", "/swagger-resources", "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic()
-        .authenticationEntryPoint(basicAuthenticationEntryPoint);
+                .httpBasic();
     }
 }
