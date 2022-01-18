@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/${version.name}/books")
-public class BookController {
+public class BookController extends BaseController {
 
     private final BookService bookService;
 
@@ -27,7 +27,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PostMapping
+    @PostMapping(produces = APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Create book service", notes = "You can create book")
     public ResponseEntity insert(@Valid @RequestBody BookForm form, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -39,9 +39,9 @@ public class BookController {
         return new ResponseEntity(ResultObject.success(bookForm), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    @ApiOperation(value = "Update book quantity service", notes = "You can update quantity of the book")
-    public ResponseEntity updateQuantity(@RequestBody BookForm form, @PathVariable String id) {
+    @PutMapping(value = "/{id}",produces = APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Update book stock service", notes = "You can update stock of the book")
+    public ResponseEntity updateStock(@RequestBody BookForm form, @PathVariable String id) {
 
         try {
             BookForm bookForm = bookService.updateStock(form, id);
@@ -53,9 +53,9 @@ public class BookController {
         }
     }
 
-    @PutMapping("/reserve/{id}")
+    @PutMapping(value = "/reserve/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Reserve or release book", notes = "You can reserve or release book and it changes stock of books")
-    public ResponseEntity updateQuantity(@PathVariable String id, @RequestParam("isAdd") boolean isAdd) {
+    public ResponseEntity reserveOrReleaseBook(@PathVariable String id, @RequestParam("isAdd") boolean isAdd) {
 
         try {
             bookService.changeStock(id, isAdd);

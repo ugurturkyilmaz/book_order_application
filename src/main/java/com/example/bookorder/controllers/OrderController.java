@@ -20,7 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/${version.name}/orders")
-public class OrderController {
+public class OrderController extends BaseController {
 
     private final OrderService orderService;
 
@@ -28,7 +28,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "View order service", notes = "You can view order")
     public ResponseEntity view(@PathVariable String id) {
 
@@ -40,7 +40,7 @@ public class OrderController {
         }
     }
 
-    @PostMapping
+    @PostMapping(produces = APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Create order service", notes = "You can create order")
     public ResponseEntity create(@Valid @RequestBody OrderForm form, BindingResult bindingResult) {
 
@@ -57,7 +57,7 @@ public class OrderController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", produces = APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Complete order service", notes = "You can complete order")
     public ResponseEntity completeOrder(@PathVariable String id) {
 

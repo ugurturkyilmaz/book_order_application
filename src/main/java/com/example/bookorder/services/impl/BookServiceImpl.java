@@ -6,14 +6,12 @@ import com.example.bookorder.models.exceptions.EntityNotFoundException;
 import com.example.bookorder.models.exceptions.MissingDataException;
 import com.example.bookorder.models.exceptions.StockNotEnoughException;
 import com.example.bookorder.models.forms.BookForm;
-import com.example.bookorder.models.forms.OrderedBookForm;
 import com.example.bookorder.repositories.BookRepository;
 import com.example.bookorder.services.BookService;
 import com.example.bookorder.utils.ErrorMessages;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,11 +38,11 @@ public class BookServiceImpl implements BookService {
 
         Optional<Book> optionalBook = bookRepository.findById(id);
         if(optionalBook.isPresent()) {
-            if(bookForm.getQuantity() == null || bookForm.getQuantity() < 0) {
+            if(bookForm.getStock() == null || bookForm.getStock() < 0) {
                 throw new MissingDataException(ErrorMessages.BOOK_QUANTITY_MISSING_OR_LESS_THAN_0);
             }
             Book book = optionalBook.get();
-            book.setStock(bookForm.getQuantity());
+            book.setStock(bookForm.getStock());
             book = bookRepository.save(book);
             return EntityFormMapper.toBookForm(book);
         } else {

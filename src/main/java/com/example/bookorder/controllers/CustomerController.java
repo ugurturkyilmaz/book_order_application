@@ -20,7 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/${version.name}/customers")
-public class CustomerController {
+public class CustomerController extends BaseController {
 
     private final CustomerService customerService;
     private final OrderService orderService;
@@ -30,7 +30,7 @@ public class CustomerController {
         this.orderService = orderService;
     }
 
-    @PostMapping
+    @PostMapping(produces = APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Create customer service", notes = "You can create customer")
     public ResponseEntity insert(@Valid @RequestBody CustomerForm form, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -46,7 +46,7 @@ public class CustomerController {
         }
     }
 
-    @GetMapping
+    @GetMapping(produces = APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Get orders of the customer", notes = "You can get orders of the customer")
     public ResponseEntity getOrdersOfCustomer(@RequestParam("customerId") String customerId) {
 

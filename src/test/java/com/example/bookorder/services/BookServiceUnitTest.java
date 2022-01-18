@@ -55,10 +55,10 @@ public class BookServiceUnitTest {
 
         try {
             BookForm bookForm = getBookForm(false);
-            bookForm.setQuantity(20);
+            bookForm.setStock(20);
             bookForm = bookService.updateStock(bookForm,"1");
             Assert.assertNotNull(bookForm);
-            Assert.assertEquals(20, bookForm.getQuantity().longValue());
+            Assert.assertEquals(20, bookForm.getStock().longValue());
         } catch (MissingDataException e) {
             e.printStackTrace();
         } catch (EntityNotFoundException e) {
@@ -76,7 +76,7 @@ public class BookServiceUnitTest {
         when(bookRepository.findById(Mockito.anyString())).thenReturn(optionalBook);
 
         BookForm bookForm = getBookForm(false);
-        bookForm.setQuantity(-10);
+        bookForm.setStock(-10);
         bookService.updateStock(bookForm,"1");
     }
 
@@ -103,7 +103,7 @@ public class BookServiceUnitTest {
     private BookForm getBookForm(boolean isWithId) {
         BookForm bookForm = new BookForm();
         bookForm.setPrice(100D);
-        bookForm.setQuantity(100);
+        bookForm.setStock(100);
         bookForm.setName("Book1");
         if(isWithId) {
             bookForm.setId("1");

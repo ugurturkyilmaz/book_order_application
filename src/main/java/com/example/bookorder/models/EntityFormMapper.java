@@ -39,7 +39,7 @@ public class EntityFormMapper {
         BookForm bookForm = new BookForm();
         bookForm.setId(book.getId());
         bookForm.setName(book.getName());
-        bookForm.setQuantity(book.getStock());
+        bookForm.setStock(book.getStock());
         bookForm.setPrice(book.getPrice());
         return bookForm;
     }
@@ -47,7 +47,7 @@ public class EntityFormMapper {
     public static Book toBook(BookForm bookForm) {
         Book book = new Book();
         book.setName(bookForm.getName());
-        book.setStock(bookForm.getQuantity());
+        book.setStock(bookForm.getStock());
         book.setPrice(bookForm.getPrice());
         return book;
     }

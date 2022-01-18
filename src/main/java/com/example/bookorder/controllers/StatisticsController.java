@@ -12,7 +12,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/${version.name}")
-public class StatisticsController {
+public class StatisticsController extends BaseController {
 
     private final OrderService orderService;
 
