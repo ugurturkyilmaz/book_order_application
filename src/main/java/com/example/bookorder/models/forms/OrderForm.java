@@ -2,11 +2,11 @@ package com.example.bookorder.models.forms;
 
 import com.example.bookorder.models.enums.OrderStatus;
 import com.example.bookorder.utils.ErrorMessages;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 

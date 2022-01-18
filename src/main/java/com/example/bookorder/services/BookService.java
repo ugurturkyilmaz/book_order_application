@@ -5,9 +5,6 @@ import com.example.bookorder.models.exceptions.EntityNotFoundException;
 import com.example.bookorder.models.exceptions.MissingDataException;
 import com.example.bookorder.models.exceptions.StockNotEnoughException;
 import com.example.bookorder.models.forms.BookForm;
-import com.example.bookorder.models.forms.OrderedBookForm;
-
-import java.util.List;
 
 public interface BookService {
 

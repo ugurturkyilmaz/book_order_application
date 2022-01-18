@@ -1,10 +1,10 @@
 package com.example.bookorder.models.forms;
 
 import com.example.bookorder.utils.ErrorMessages;
+import lombok.Data;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import lombok.Data;
 
 @Data
 public class OrderedBookForm {
