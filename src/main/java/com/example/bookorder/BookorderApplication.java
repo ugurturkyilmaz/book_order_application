@@ -36,8 +36,8 @@ public class BookorderApplication {
 
 		return new Docket(DocumentationType.SWAGGER_2).globalOperationParameters(
 				Collections.singletonList(new ParameterBuilder()
-						.name("Bearer Token")
-						.description("Default token : test ")
+						.name("Authorization")
+						.description("Default token : Basic YWRtaW46cGFzc3dvcmQ=")
 						.modelRef(new ModelRef("string"))
 						.parameterType("header")
 						.required(false)
