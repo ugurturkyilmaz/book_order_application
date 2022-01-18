@@ -4,6 +4,7 @@ import com.example.bookorder.models.EntityFormMapper;
 import com.example.bookorder.models.entities.Book;
 import com.example.bookorder.models.exceptions.EntityNotFoundException;
 import com.example.bookorder.models.exceptions.MissingDataException;
+import com.example.bookorder.models.exceptions.StockNotEnoughException;
 import com.example.bookorder.models.forms.BookForm;
 import com.example.bookorder.models.forms.OrderedBookForm;
 import com.example.bookorder.repositories.BookRepository;
@@ -52,20 +53,23 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void decreaseStocks(List<OrderedBookForm> orderedBooks) {
+    public void changeStock(String bookId, boolean isAdd) throws StockNotEnoughException, EntityNotFoundException {
 
-        //todo is there enough stock check
-
-
-        if(orderedBooks != null) {
-            for(OrderedBookForm orderedBookForm : orderedBooks) {
-                Optional<Book> optionalBook = bookRepository.findById(orderedBookForm.getBookId());
-                if(optionalBook.isPresent()) {
-                    Book book = optionalBook.get();
-                    book.setStock(book.getStock() - orderedBookForm.getQuantity());
-                    bookRepository.save(book);
-                }
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        if(optionalBook.isPresent()) {
+            Book book = optionalBook.get();
+            if(!isAdd && book.getStock() < 1) {
+                throw new StockNotEnoughException(ErrorMessages.BOOK_STOCK_NOT_ENOUGH);
             }
+            if(isAdd) {
+                book.setStock(book.getStock() + 1);
+            } else {
+                book.setStock(book.getStock() - 1);
+            }
+
+            bookRepository.save(book);
+        } else {
+            throw new EntityNotFoundException(ErrorMessages.BOOK_STOCK_NOT_ENOUGH);
         }
     }
 

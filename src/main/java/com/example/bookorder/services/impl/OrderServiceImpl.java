@@ -47,9 +47,6 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalPrice(order.getBooks().stream().mapToDouble(OrderedBook::getPrice).sum());
         order = orderRepository.insert(order);
 
-        //Decrease stock of books
-        bookService.decreaseStocks(orderForm.getBooks());
-
         return EntityFormMapper.toOrderForm(order);
     }
 

@@ -32,5 +32,6 @@ public class ErrorMessages {
 
     public static final String TOKEN_ERROR = "Token error";
 
+    public static final String BOOK_STOCK_NOT_ENOUGH = "Book stock is not enough";
 
 }

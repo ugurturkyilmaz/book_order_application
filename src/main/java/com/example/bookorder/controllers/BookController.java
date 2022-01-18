@@ -2,6 +2,7 @@ package com.example.bookorder.controllers;
 
 import com.example.bookorder.models.exceptions.EntityNotFoundException;
 import com.example.bookorder.models.exceptions.MissingDataException;
+import com.example.bookorder.models.exceptions.StockNotEnoughException;
 import com.example.bookorder.models.forms.BookForm;
 import com.example.bookorder.services.BookService;
 import com.example.bookorder.utils.ResultObject;
@@ -45,8 +46,24 @@ public class BookController {
         try {
             BookForm bookForm = bookService.updateStock(form, id);
             return new ResponseEntity(ResultObject.success(bookForm), HttpStatus.OK);
-        } catch (MissingDataException | EntityNotFoundException e) {
+        } catch (MissingDataException e) {
             return new ResponseEntity(ResultObject.failure(e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity(ResultObject.failure(e.getMessage()), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/reserve/{id}")
+    @ApiOperation(value = "Reserve or release book", notes = "You can reserve or release book and it changes stock of books")
+    public ResponseEntity updateQuantity(@PathVariable String id, @RequestParam("isAdd") boolean isAdd) {
+
+        try {
+            bookService.changeStock(id, isAdd);
+            return new ResponseEntity(ResultObject.success(true), HttpStatus.OK);
+        } catch (StockNotEnoughException e) {
+            return new ResponseEntity(ResultObject.failure(e.getMessage()), HttpStatus.FORBIDDEN);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity(ResultObject.failure(e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
 }

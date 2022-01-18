@@ -42,7 +42,7 @@ public class CustomerController {
             CustomerForm customerForm = customerService.register(form);
             return new ResponseEntity(ResultObject.success(customerForm), HttpStatus.CREATED);
         } catch (CustomerExistsException e) {
-            return new ResponseEntity(ResultObject.failure(e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(ResultObject.failure(e.getMessage()), HttpStatus.CONFLICT);
         }
     }
 

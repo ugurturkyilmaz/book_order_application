@@ -36,7 +36,7 @@ public class OrderController {
             OrderForm orderForm = orderService.findById(id);
             return new ResponseEntity(ResultObject.success(orderForm), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            return new ResponseEntity(ResultObject.failure(e.getMessage()), HttpStatus.OK);
+            return new ResponseEntity(ResultObject.failure(e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -53,7 +53,7 @@ public class OrderController {
             OrderForm orderForm = orderService.createOrder(form);
             return new ResponseEntity(ResultObject.success(orderForm), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            return new ResponseEntity(ResultObject.failure(e.getMessage()), HttpStatus.OK);
+            return new ResponseEntity(ResultObject.failure(e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -65,7 +65,7 @@ public class OrderController {
             OrderForm orderForm = orderService.completeOrder(id);
             return new ResponseEntity(ResultObject.success(orderForm), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
-            return new ResponseEntity(ResultObject.failure(e.getMessage()), HttpStatus.OK);
+            return new ResponseEntity(ResultObject.failure(e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
 
