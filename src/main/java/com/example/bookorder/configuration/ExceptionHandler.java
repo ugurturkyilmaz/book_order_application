@@ -25,11 +25,11 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String methods = "";
+        StringBuilder methods = new StringBuilder();
         for (String method : ex.getSupportedMethods()) {
-            methods += method + " ,";
+            methods.append(method).append(" ,");
         }
-        methods = methods.substring(0, methods.length() - 1);
+        methods = new StringBuilder(methods.substring(0, methods.length() - 1));
         ResultObject resultObject = ResultObject.failure("HTTP method is wrong.Correct HTTP method is " + methods);
         return new ResponseEntity(resultObject, HttpStatus.BAD_REQUEST);
     }
