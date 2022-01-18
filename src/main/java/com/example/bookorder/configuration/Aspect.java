@@ -20,7 +20,8 @@ public class Aspect {
 
     @After("execution(* com.example.bookorder.repositories.*.save(..))")
     public void loggingSave(JoinPoint joinPoint) {
-        System.out.println("Save is done " + new Date());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Save is done " + new Date() + " user is : " + auth.getName());
     }
 
 }
