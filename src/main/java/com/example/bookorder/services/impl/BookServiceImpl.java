@@ -1,0 +1,80 @@
+package com.example.bookorder.services.impl;
+
+import com.example.bookorder.models.EntityFormMapper;
+import com.example.bookorder.models.entities.Book;
+import com.example.bookorder.models.exceptions.EntityNotFoundException;
+import com.example.bookorder.models.exceptions.MissingDataException;
+import com.example.bookorder.models.forms.BookForm;
+import com.example.bookorder.models.forms.OrderedBookForm;
+import com.example.bookorder.repositories.BookRepository;
+import com.example.bookorder.services.BookService;
+import com.example.bookorder.utils.ErrorMessages;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@Transactional
+public class BookServiceImpl implements BookService {
+
+    private final BookRepository bookRepository;
+
+    public BookServiceImpl(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
+
+    @Override
+    public BookForm register(BookForm bookForm) {
+        Book book = EntityFormMapper.toBook(bookForm);
+
+        book = bookRepository.insert(book);
+
+        return EntityFormMapper.toBookForm(book);
+    }
+
+    @Override
+    public BookForm updateStock(BookForm bookForm, String id) throws MissingDataException, EntityNotFoundException {
+
+        Optional<Book> optionalBook = bookRepository.findById(id);
+        if(optionalBook.isPresent()) {
+            if(bookForm.getQuantity() == null || bookForm.getQuantity() < 0) {
+                throw new MissingDataException(ErrorMessages.BOOK_QUANTITY_MISSING_OR_LESS_THAN_0);
+            }
+            Book book = optionalBook.get();
+            book.setStock(bookForm.getQuantity());
+            book = bookRepository.save(book);
+            return EntityFormMapper.toBookForm(book);
+        } else {
+            throw new EntityNotFoundException(ErrorMessages.BOOK_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public void decreaseStocks(List<OrderedBookForm> orderedBooks) {
+
+        //todo is there enough stock check
+
+
+        if(orderedBooks != null) {
+            for(OrderedBookForm orderedBookForm : orderedBooks) {
+                Optional<Book> optionalBook = bookRepository.findById(orderedBookForm.getBookId());
+                if(optionalBook.isPresent()) {
+                    Book book = optionalBook.get();
+                    book.setStock(book.getStock() - orderedBookForm.getQuantity());
+                    bookRepository.save(book);
+                }
+            }
+        }
+    }
+
+    @Override
+    public Book findById(String id) throws EntityNotFoundException {
+        Optional<Book> optionalBook = bookRepository.findById(id);
+        if(!optionalBook.isPresent()) {
+            throw new EntityNotFoundException(ErrorMessages.BOOK_NOT_FOUND);
+        }
+        return optionalBook.get();
+    }
+}
