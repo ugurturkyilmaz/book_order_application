@@ -75,10 +75,6 @@ public class BookServiceUnitTest {
         Optional<Book> optionalBook = Optional.of(book);
         when(bookRepository.findById(Mockito.anyString())).thenReturn(optionalBook);
 
-        Book differentStockBook = getBook(true);
-        differentStockBook.setStock(20);
-        when(bookRepository.save(book)).thenReturn(differentStockBook);
-
         BookForm bookForm = getBookForm(false);
         bookForm.setQuantity(-10);
         bookService.updateStock(bookForm,"1");

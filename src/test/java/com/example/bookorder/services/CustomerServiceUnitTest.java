@@ -49,8 +49,6 @@ public class CustomerServiceUnitTest {
 
         when(customerRepository.findCustomerByEmailOrPhoneNumber(Mockito.anyString(), Mockito.anyString())).thenReturn(getCustomer(true));
 
-        when(customerRepository.insert(getCustomer(false))).thenReturn(getCustomer(true));
-
         customerService.register(getCustomerForm(false));
     }
 
