@@ -34,4 +34,5 @@ public class ErrorMessages {
 
     public static final String BOOK_STOCK_NOT_ENOUGH = "Book stock is not enough";
 
+    public static final String CUSTOMER_ALREADY_EXISTS = "Customer already exists";
 }

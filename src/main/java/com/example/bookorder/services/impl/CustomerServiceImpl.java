@@ -29,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
         //Email or phone check
         Customer customerCheck = customerRepository.findCustomerByEmailOrPhoneNumber(customerForm.getEmail(), customerForm.getPhoneNumber());
         if(customerCheck != null) {
-            throw new CustomerExistsException("Customer already exists"); //Messages ile oku
+            throw new CustomerExistsException(ErrorMessages.CUSTOMER_ALREADY_EXISTS);
         }
 
         Customer customer = EntityFormMapper.toCustomer(customerForm);
