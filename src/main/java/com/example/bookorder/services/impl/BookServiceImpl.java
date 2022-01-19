@@ -51,7 +51,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void changeStock(String bookId, boolean isAdd) throws StockNotEnoughException, EntityNotFoundException {
+    public synchronized void changeStock(String bookId, boolean isAdd) throws StockNotEnoughException, EntityNotFoundException {
 
         Optional<Book> optionalBook = bookRepository.findById(bookId);
         if(optionalBook.isPresent()) {
